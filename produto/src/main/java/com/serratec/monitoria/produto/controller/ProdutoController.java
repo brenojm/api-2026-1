@@ -2,6 +2,7 @@ package com.serratec.monitoria.produto.controller;
 
 import com.serratec.monitoria.produto.entity.Produto;
 import com.serratec.monitoria.produto.service.ProdutoService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,8 +23,23 @@ public class ProdutoController {
     }
 
     @PostMapping
-    public ResponseEntity<Produto> criar(@RequestBody Produto produto) {
+    public ResponseEntity<Produto> criar(@Valid @RequestBody Produto produto) {
         Produto produtoCriado = produtoService.criar(produto);
         return ResponseEntity.status(HttpStatus.CREATED).body(produtoCriado);
+    }
+    @GetMapping("/nome/{nome}")
+    public ResponseEntity<Produto> buscarPorNome(@PathVariable String nome) {
+        return ResponseEntity.ok(produtoService.buscarPorNome(nome));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Produto> atualizar(@PathVariable Long id, @RequestBody Produto produtoAtualizado) {
+        return ResponseEntity.ok(produtoService.atualizar(id, produtoAtualizado));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletar(@PathVariable Long id) {
+        produtoService.deletar(id);
+        return ResponseEntity.noContent().build();
     }
 }

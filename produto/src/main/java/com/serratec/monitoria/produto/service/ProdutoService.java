@@ -18,6 +18,11 @@ public class ProdutoService {
         return produtoRepository.findAll();
     }
 
+    public Produto buscarPorNome(String nome) {
+        Optional<Produto> produto = produtoRepository.findByNomeIgnoreCase(nome);
+        return produto.get();
+    }
+
     public Produto criar(Produto produto) {
         return produtoRepository.save(produto);
     }
@@ -25,9 +30,12 @@ public class ProdutoService {
     public Produto atualizar(Long id, Produto produtoAtualizado) {
         Produto produtoExistente = produtoRepository.findById(id).get();
 
-        produtoExistente.setNome(produtoAtualizado.getNome());
-        produtoExistente.setDescription(produtoAtualizado.getDescription());
-        produtoExistente.setPreco(produtoAtualizado.getPreco());
+        if(produtoAtualizado.getNome() != null)
+            produtoExistente.setNome(produtoAtualizado.getNome());
+        if(produtoAtualizado.getDescription() != null)
+            produtoExistente.setDescription(produtoAtualizado.getDescription());
+        if(produtoAtualizado.getPreco() > 0)
+            produtoExistente.setPreco(produtoAtualizado.getPreco());
 
         return produtoRepository.save(produtoExistente);
     }

@@ -19,8 +19,8 @@ public class Produto {
     private String nome;
 
     @NotBlank(message = "A description não pode ser vazia ou nula")
-    @Column(nullable = false)
-    private String description;
+    @Column(name = "description",nullable = false)
+    private String descricao;
 
     @Min(value = 0, message = "O preço não pode ser menor que 0")
     @Column(nullable = false)
@@ -33,9 +33,9 @@ public class Produto {
     public Produto() {
     }
 
-    public Produto(String nome, String description, double preco) {
+    public Produto(String nome, String descricao, double preco) {
         this.nome = nome;
-        this.description = description;
+        this.descricao = descricao;
         this.preco = preco;
     }
 
@@ -55,12 +55,12 @@ public class Produto {
         this.nome = nome;
     }
 
-    public String getDescription() {
-        return description;
+    public String getDescricao() {
+        return descricao;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
     public double getPreco() {

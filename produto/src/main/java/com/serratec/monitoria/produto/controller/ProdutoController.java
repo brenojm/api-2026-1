@@ -42,4 +42,14 @@ public class ProdutoController {
         produtoService.deletar(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PatchMapping("/{id}/estoque/adicionar/{quantidade}")
+    public ResponseEntity<Produto> adicionarEstoque(@PathVariable Long id, @PathVariable int quantidade) {
+        return ResponseEntity.ok(produtoService.adicionarEstoque(id, quantidade));
+    }
+
+    @PatchMapping("/{id}/estoque/vender/{quantidade}")
+    public ResponseEntity<Produto> venderProduto(@PathVariable Long id, @PathVariable int quantidade) {
+        return ResponseEntity.ok(produtoService.venderProduto(id, quantidade));
+    }
 }

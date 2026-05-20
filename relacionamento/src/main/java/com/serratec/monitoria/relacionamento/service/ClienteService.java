@@ -17,7 +17,29 @@ public class ClienteService {
         return clienteRepository.findAll();
     }
 
+    public Cliente buscarPorId(Long id) {
+        return clienteRepository.findById(id).orElseThrow(() -> new RuntimeException("Cliente não foi encontrado"));
+    }
+
     public Cliente criar(Cliente cliente) {
         return clienteRepository.save(cliente);
+    }
+
+    public Cliente atualizar(Long id, Cliente clienteAtualizado) {
+        Cliente cliente = buscarPorId(id);
+
+        cliente.setNome(clienteAtualizado.getNome());
+
+        if(clienteAtualizado.getEndereco() != null) {
+            cliente.getEndereco().setBairro(clienteAtualizado.getEndereco().getBairro());
+            cliente.getEndereco().setRua(clienteAtualizado.getEndereco().getRua());
+        }
+
+        return clienteRepository.save(cliente);
+    }
+
+    public void deletar(Long id) {
+        Cliente cliente = buscarPorId(id);
+        clienteRepository.delete(cliente);
     }
 }

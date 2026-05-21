@@ -1,7 +1,9 @@
 package com.serratec.monitoria.relacionamento.service;
 
+import com.serratec.monitoria.relacionamento.dto.PedidoRequestDTO;
 import com.serratec.monitoria.relacionamento.entity.Cliente;
 import com.serratec.monitoria.relacionamento.entity.Pedido;
+import com.serratec.monitoria.relacionamento.entity.Produto;
 import com.serratec.monitoria.relacionamento.repository.PedidoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,11 +27,15 @@ public class PedidoService {
         return pedidoRepository.findById(id).orElseThrow(() -> new RuntimeException("Pedido não foi encontrado"));
     }
 
-    public Pedido criar(Pedido pedido, Long clienteId) {
+    public Pedido criar(PedidoRequestDTO pedidoDTO) {
+        Pedido pedido = new Pedido();
+        pedido.setDescricao(pedidoDTO.getDescricao());
+        pedido.setValor(pedidoDTO.getValor());
 
-        Cliente cliente = clienteService.buscarPorId(clienteId);
+        Cliente cliente = clienteService.buscarPorId(pedidoDTO.getClienteId());
 
         pedido.setCliente(cliente);
+
 
         return pedidoRepository.save(pedido);
     }

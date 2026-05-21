@@ -1,5 +1,6 @@
 package com.serratec.monitoria.relacionamento.controller;
 
+import com.serratec.monitoria.relacionamento.dto.PedidoRequestDTO;
 import com.serratec.monitoria.relacionamento.entity.Pedido;
 import com.serratec.monitoria.relacionamento.service.PedidoService;
 import jakarta.validation.Valid;
@@ -25,9 +26,9 @@ public class PedidoController {
     public ResponseEntity<Pedido> buscarPorId(@PathVariable Long id) {
         return ResponseEntity.ok(pedidoService.buscarPorId(id));
     }
-    @PostMapping("/{id}")
-    public ResponseEntity<Pedido> criar(@RequestBody Pedido pedido,@PathVariable Long id) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(pedidoService.criar(pedido, id));
+    @PostMapping
+    public ResponseEntity<Pedido> criar(@RequestBody PedidoRequestDTO pedidoDTO) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(pedidoService.criar(pedidoDTO);
     }
 
     @DeleteMapping("/{id}")

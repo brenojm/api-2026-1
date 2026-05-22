@@ -8,6 +8,7 @@ import com.serratec.monitoria.relacionamento.repository.PedidoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -18,6 +19,9 @@ public class PedidoService {
 
     @Autowired
     ClienteService clienteService;
+
+    @Autowired
+    ProdutoService produtoService;
 
     public List<Pedido> listarTodos() {
         return pedidoRepository.findAll();
@@ -30,11 +34,20 @@ public class PedidoService {
     public Pedido criar(PedidoRequestDTO pedidoDTO) {
         Pedido pedido = new Pedido();
         pedido.setDescricao(pedidoDTO.getDescricao());
-        pedido.setValor(pedidoDTO.getValor());
 
         Cliente cliente = clienteService.buscarPorId(pedidoDTO.getClienteId());
-
         pedido.setCliente(cliente);
+
+        List<Produto> produtos = new ArrayList<>();
+        double valorTotal = 0;
+
+        for(Long produtoId : pedidoDTO.getProdutosIds()) {
+            Produto produto = produtoService.buscarPorId(produtoId);
+            valorTotal += produto.getPreco();
+            produtos.add(produto);
+        }
+        pedido.setValor(valorTotal);
+        pedido.setProdutos(produtos);
 
 
         return pedidoRepository.save(pedido);

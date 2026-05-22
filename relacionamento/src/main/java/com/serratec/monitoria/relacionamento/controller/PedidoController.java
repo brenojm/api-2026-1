@@ -28,7 +28,7 @@ public class PedidoController {
     }
     @PostMapping
     public ResponseEntity<Pedido> criar(@RequestBody PedidoRequestDTO pedidoDTO) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(pedidoService.criar(pedidoDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(pedidoService.criar(pedidoDTO));
     }
 
     @DeleteMapping("/{id}")
